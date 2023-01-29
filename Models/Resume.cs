@@ -10,15 +10,18 @@ namespace MRDN68_SOF_2022231.Models
         [Key]
         public string Id { get; set; }
 
+        [StringLength(100)]
         [Required]
         public string FirstName { get; set; }
 
+        [StringLength(100)]
         [Required]
         public string LastName { get; set; }
 
         [Required]
         public int Age { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         public string? ContentType { get; set; }

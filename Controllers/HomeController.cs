@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MRDN68_SOF_2022231.Data;
 using MRDN68_SOF_2022231.Models;
@@ -12,15 +13,17 @@ namespace MRDN68_SOF_2022231.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
-        IResumeRepository repo;
+        IResumeRepository ResumeRepo;
+        IWorkplaceRepository WorkplaceRepo;
 
-        public HomeController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IResumeRepository repo)
+        public HomeController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IResumeRepository resumeRepo, IWorkplaceRepository workplaceRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
             _db = db;
-            this.repo = repo;
+            ResumeRepo = resumeRepo;
+            WorkplaceRepo = workplaceRepository;
         }
 
         public IActionResult Index()
@@ -28,10 +31,38 @@ namespace MRDN68_SOF_2022231.Controllers
             return View();
         }
 
+
+        [Authorize]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
         public IActionResult Create(Resume resume) 
-        { 
-            repo.Create(resume);
-            return RedirectToAction("Index");
+        {
+            resume.OwnerId = _userManager.GetUserId(this.User);
+            ResumeRepo.Create(resume);
+            //return RedirectToAction("AddWorkplace", resume.Id);
+            return RedirectToAction("AddWorkplace", new { ownerId = resume.Id });
+
+        }
+
+        [Authorize]
+        public IActionResult AddWorkplace(string ownerId)
+        {
+            Workplace newWorkplace = new Workplace { OwnerId = ownerId };
+            return View(newWorkplace);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddWorkplace(Workplace workplace) 
+        {
+            WorkplaceRepo.Create(workplace);
+            Workplace newWorkplace = new Workplace { OwnerId = workplace.OwnerId };
+            return View(newWorkplace);
         }
 
         public IActionResult Privacy()

@@ -22,8 +22,7 @@ namespace MRDN68_SOF_2022231.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData(
-            new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-            new { Id = "2", Name = "User", NormalizedName = "USER" } 
+            new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" }
             );
 
             PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
@@ -37,6 +36,12 @@ namespace MRDN68_SOF_2022231.Data
             };
             admin.PasswordHash = ph.HashPassword(admin, "almafa123");
             builder.Entity<IdentityUser>().HasData(admin);
+
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = "1",
+                UserId = admin.Id
+            });
 
             Resume res1 = new Resume()
             {
@@ -87,19 +92,17 @@ namespace MRDN68_SOF_2022231.Data
 
             };
 
-
-
             builder.Entity<Resume>()
                 .HasOne(t => t.Owner)
                 .WithMany()
                 .HasForeignKey(t => t.OwnerId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Workplace>()
                 .HasOne(t => t.Owner)
                 .WithMany()
                 .HasForeignKey(t => t.OwnerId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Workplace>().HasData(workplace1, workplace2, workplace3);
             builder.Entity<Resume>().HasData(res1, res2);

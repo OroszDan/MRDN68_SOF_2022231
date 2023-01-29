@@ -66,11 +66,11 @@ namespace MRDN68_SOF_2022231.Data
 
         public void Update(Resume hero)
         {
-            var old = Read(hero.Name);
-            old.Alien = hero.Alien;
-            old.Power = hero.Power;
-            old.Side = hero.Side;
-            context.SaveChanges();
+            //var old = Read(hero.Name);
+            //old.Alien = hero.Alien;
+            //old.Power = hero.Power;
+            //old.Side = hero.Side;
+            //context.SaveChanges();
         }
 
     }
