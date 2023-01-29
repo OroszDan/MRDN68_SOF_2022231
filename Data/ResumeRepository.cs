@@ -33,6 +33,7 @@ namespace MRDN68_SOF_2022231.Data
 
         public IEnumerable<Resume> Read()
         {
+
             return _context.Resumes;
         }
 
@@ -41,9 +42,21 @@ namespace MRDN68_SOF_2022231.Data
         //    return context.Resumes.FirstOrDefault(t => t.Name == name);
         //}
 
-        public Resume? ReadFromId(string id)
+        public IEnumerable<Resume> ReadFromOwnerId(ClaimsPrincipal principal)
         {
-            return _context.Resumes.FirstOrDefault(t => t.Id == id);
+            var uid = _userManager.GetUserId(principal);
+            if (uid == null)
+            {
+                throw new ArgumentException("User connot be found!");
+            }
+
+            return _context.Resumes.Where(t => t.OwnerId == uid);
+
+        }
+
+        public Resume ReadOneById(string id)
+        {
+            return _context.Resumes.First(x => x.Id == id);
         }
 
         public void Delete(string id, ClaimsPrincipal principal)
@@ -56,7 +69,7 @@ namespace MRDN68_SOF_2022231.Data
             }
             else
             {
-                throw new ArgumentException("Something went wrong!");
+                throw new ArgumentException("User cannot be found!");
             }
 
             //var hero = Read(name);
@@ -64,7 +77,7 @@ namespace MRDN68_SOF_2022231.Data
             //_context.SaveChanges();
         }
 
-        public void Update(Resume hero)
+        public void Update(Resume resume)
         {
             //var old = Read(hero.Name);
             //old.Alien = hero.Alien;

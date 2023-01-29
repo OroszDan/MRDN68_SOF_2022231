@@ -6,6 +6,6 @@ namespace MRDN68_SOF_2022231.Data
     {
         void Create(Workplace workplace);
         IEnumerable<Workplace> Read();
-        Workplace? ReadFromId(string id);
+        IEnumerable<Workplace> ReadFromId(string uid);
     }
 }

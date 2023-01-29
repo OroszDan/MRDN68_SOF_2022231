@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MRDN68_SOF_2022231.Models.Resume>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Your Resumes</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var resume in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => resume.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => resume.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => resume.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => resume.Description)
+            </td>
+           
+            <td>
+                <a asp-action="Update" asp-route-id="@resume.Id">Update</a> |
+                <a href="ListWorkplaces?resumeId=@resume.Id">ListWorkplaces</a>|
+                <a asp-action="ListWorkplaces" asp-route-id="@resume.Id">ListWorkplaces</a> |
+                <a asp-action="Delete" asp-route-id="@resume.Id">Delete</a>
+            </td>
+        </tr>
+
+}
+    </tbody>
+</table>

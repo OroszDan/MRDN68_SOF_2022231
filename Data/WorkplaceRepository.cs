@@ -30,9 +30,9 @@ namespace MRDN68_SOF_2022231.Data
         //    return context.Resumes.FirstOrDefault(t => t.Name == name);
         //}
 
-        public Workplace? ReadFromId(string id)
+        public IEnumerable<Workplace> ReadFromId(string uid)
         {
-            return _context.Workplaces.FirstOrDefault(t => t.Id == id);
+            return _context.Workplaces.Where(t => t.OwnerId == uid);
         }
 
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MRDN68_SOF_2022231.Data;
 using MRDN68_SOF_2022231.Models;
+using NuGet.Packaging;
 using System.Diagnostics;
 
 namespace MRDN68_SOF_2022231.Controllers
@@ -44,7 +45,6 @@ namespace MRDN68_SOF_2022231.Controllers
         {
             resume.OwnerId = _userManager.GetUserId(this.User);
             ResumeRepo.Create(resume);
-            //return RedirectToAction("AddWorkplace", resume.Id);
             return RedirectToAction("AddWorkplace", new { ownerId = resume.Id });
 
         }
@@ -64,6 +64,44 @@ namespace MRDN68_SOF_2022231.Controllers
             Workplace newWorkplace = new Workplace { OwnerId = workplace.OwnerId };
             return View(newWorkplace);
         }
+
+        [Authorize]
+        public IActionResult List()
+        {
+            //if (!ModelState.IsValid)
+            //{
+
+            //}
+            IEnumerable<Resume> resume = ResumeRepo.ReadFromOwnerId(this.User);
+            return View(resume);
+        }
+
+        [Authorize]
+        public IActionResult ListWorkplaces(string resumeId) 
+        {
+            IEnumerable<Workplace> workplaces = WorkplaceRepo.ReadFromId(resumeId);
+            return View(workplaces);
+        }
+
+        [Authorize]
+        public IActionResult Update(string id)
+        {
+            var result = ResumeRepo.ReadOneById(id);
+            return View(result);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Update(Resume resume)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(resume);
+            }
+            ResumeRepo.Update(resume);
+            return RedirectToAction(nameof(List));
+        }
+
 
         public IActionResult Privacy()
         {
