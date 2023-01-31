@@ -10,6 +10,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.OwnerId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CompanyName)
             </th>
             <th>
@@ -28,6 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.OwnerId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.CompanyName)
             </td>
             <td>
@@ -40,9 +46,11 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                    <a asp-action="DeleteWorkplace" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                <a asp-action="UpdateWorkplace" asp-route-id="@item.Id" class="btn btn-outline-primary">Update</a> 
+                <a asp-action="DeleteWorkplace" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
 }
     </tbody>
+    <a asp-action="AddWorkplace" asp-route-id="@Model.Select(x => x.Id).First()" class="btn btn-outline-success">Add a Workplace</a>
 </table>

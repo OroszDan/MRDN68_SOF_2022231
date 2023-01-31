@@ -4,11 +4,14 @@
     ViewData["Title"] = "List";
 }
 
-<h1>Your Resumes</h1>
+<h1>List</h1>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -28,6 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.OwnerId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -38,14 +44,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>    
+            </td>
             <td>
                 <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-primary">Update</a> 
                 <a href="ListWorkplaces?resumeId=@item.Id" class="btn btn-outline-success">List Workplaces</a>
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
-
 }
     </tbody>
+  
+
 </table>

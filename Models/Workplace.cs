@@ -11,22 +11,24 @@ namespace MRDN68_SOF_2022231.Models
 
         [StringLength(100)]
         [Required]
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
         [StringLength(100)]
         public string City { get; set; }
 
         [Required]
+        [Display(Name = "Worked Years")]
         public int WorkedYears { get; set; }
 
         [StringLength(100)]
         [Required]
         public string Role { get; set; }
 
-        public string OwnerId { get; set; }
+        public string? OwnerId { get; set; }
 
         [NotMapped]
-        public virtual Resume Owner { get; set; }
+        public virtual Resume? Owner { get; set; }
 
         public Workplace()
         {

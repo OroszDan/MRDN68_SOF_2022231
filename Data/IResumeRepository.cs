@@ -11,5 +11,6 @@ namespace MRDN68_SOF_2022231.Data
         IEnumerable<Resume> ReadFromOwnerId(ClaimsPrincipal principal);
         Resume ReadOneById(string id);
         void Update(Resume resume);
+        Resume? YoungestPerson();
     }
 }

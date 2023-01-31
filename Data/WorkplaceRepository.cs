@@ -25,14 +25,44 @@ namespace MRDN68_SOF_2022231.Data
             return _context.Workplaces;
         }
 
-        //public Resume? Read(string name)
-        //{
-        //    return context.Resumes.FirstOrDefault(t => t.Name == name);
-        //}
-
-        public IEnumerable<Workplace> ReadFromId(string uid)
+        public IEnumerable<Workplace> ReadFromUid(string uid)
         {
             return _context.Workplaces.Where(t => t.OwnerId == uid);
+        }
+
+        public Workplace? ReadOneById(string id)
+        {
+            return _context.Workplaces.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Workplace? LongestWorkingTime()
+        {
+            return _context.Workplaces.FirstOrDefault(x => x.WorkedYears == _context.Workplaces.Max(x => x.WorkedYears));
+        }
+
+        public void Update(Workplace workplace)
+        {
+            var old = ReadOneById(workplace.Id);
+            old.CompanyName = workplace.CompanyName;
+            old.City = workplace.City;
+            old.WorkedYears = workplace.WorkedYears;
+            old.Role = workplace.Role;
+            _context.SaveChanges();
+        }
+
+        public void Delete(string id)
+        {
+            var item = _context.Workplaces.FirstOrDefault(t => t.Id == id);
+            if (item != null)
+            {
+                _context.Workplaces.Remove(item);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Something went wrong!");
+            }
+
         }
 
     }

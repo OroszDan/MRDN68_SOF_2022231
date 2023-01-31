@@ -12,13 +12,16 @@ namespace MRDN68_SOF_2022231.Models
 
         [StringLength(100)]
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [StringLength(100)]
         [Required]
+        [Display(Name ="Last Name")]
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Age")]
         public int Age { get; set; }
 
         [Required]
@@ -28,10 +31,10 @@ namespace MRDN68_SOF_2022231.Models
 
         public byte[]? Data { get; set; }
 
-        public string OwnerId { get; set; }
+        public string? OwnerId { get; set; }
 
         [NotMapped]
-        public virtual IdentityUser Owner { get; set; }
+        public virtual IdentityUser? Owner { get; set; }
 
         [NotMapped]
         [JsonIgnore]

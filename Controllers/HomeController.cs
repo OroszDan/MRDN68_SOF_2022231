@@ -11,20 +11,16 @@ namespace MRDN68_SOF_2022231.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
         IResumeRepository ResumeRepo;
         IWorkplaceRepository WorkplaceRepo;
 
-        public HomeController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IResumeRepository resumeRepo, IWorkplaceRepository workplaceRepository)
+        public HomeController(UserManager<IdentityUser> userManager, ApplicationDbContext db, IResumeRepository resumeRepo, IWorkplaceRepository workplaceRepo)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
-            _logger = logger;
             _db = db;
             ResumeRepo = resumeRepo;
-            WorkplaceRepo = workplaceRepository;
+            WorkplaceRepo = workplaceRepo;
         }
 
         public IActionResult Index()
@@ -44,8 +40,13 @@ namespace MRDN68_SOF_2022231.Controllers
         public IActionResult Create(Resume resume) 
         {
             resume.OwnerId = _userManager.GetUserId(this.User);
+            if (!ModelState.IsValid)
+            {
+                return View(resume);
+            }
+            
             ResumeRepo.Create(resume);
-            return RedirectToAction("AddWorkplace", new { ownerId = resume.Id });
+            return RedirectToAction(nameof(AddWorkplace), new { ownerId = resume.Id });
 
         }
 
@@ -60,6 +61,10 @@ namespace MRDN68_SOF_2022231.Controllers
         [Authorize]
         public IActionResult AddWorkplace(Workplace workplace) 
         {
+            if (!ModelState.IsValid)
+            {
+                return View(workplace);
+            }
             WorkplaceRepo.Create(workplace);
             Workplace newWorkplace = new Workplace { OwnerId = workplace.OwnerId };
             return View(newWorkplace);
@@ -68,10 +73,6 @@ namespace MRDN68_SOF_2022231.Controllers
         [Authorize]
         public IActionResult List()
         {
-            //if (!ModelState.IsValid)
-            //{
-
-            //}
             IEnumerable<Resume> resume = ResumeRepo.ReadFromOwnerId(this.User);
             return View(resume);
         }
@@ -79,7 +80,7 @@ namespace MRDN68_SOF_2022231.Controllers
         [Authorize]
         public IActionResult ListWorkplaces(string resumeId) 
         {
-            IEnumerable<Workplace> workplaces = WorkplaceRepo.ReadFromId(resumeId);
+            IEnumerable<Workplace> workplaces = WorkplaceRepo.ReadFromUid(resumeId);
             return View(workplaces);
         }
 
@@ -102,6 +103,20 @@ namespace MRDN68_SOF_2022231.Controllers
             return RedirectToAction(nameof(List));
         }
 
+        [Authorize]
+        public IActionResult Delete(string id)
+        {          
+            ResumeRepo.Delete(id, this.User); 
+            
+            return RedirectToAction(nameof(List));
+        }
+
+        public IActionResult DeleteWorkplace(string id)
+        {
+            WorkplaceRepo.Delete(id);
+
+            return RedirectToAction(nameof(List));
+        }
 
         public IActionResult Privacy()
         {

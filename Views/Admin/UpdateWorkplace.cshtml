@@ -1,44 +1,45 @@
 ﻿@model MRDN68_SOF_2022231.Models.Workplace
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update Workplace";
 }
 
-<h1>Add new Workplace</h1>
+<h2>Update a Workplace</h2>
+
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddWorkplace">
+        <form asp-action="UpdateWorkplace">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" hidden>
-                <input asp-for="Id" class="form-control" value="@Model.Id"/>
-            </div>
-            <div class="form-group" hidden>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="OwnerId" class="control-label"></label>
                 <input asp-for="OwnerId" class="form-control" value="@Model.OwnerId" />
+                <span asp-validation-for="OwnerId" class="text-danger"></span>
             </div>
-            <div class="form-control form-control-lg">
+            <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
                 <input asp-for="CompanyName" class="form-control" value="@Model.CompanyName" required maxlength="100" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
-            <div class="form-control form-control-lg">
+            <div class="form-group">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" value="@Model.City" required maxlength="100"/>
+                <input asp-for="City" class="form-control" value="@Model.City" required maxlength="100" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-control form-control-lg">
+            <div class="form-group">
                 <label asp-for="WorkedYears" class="control-label"></label>
-                <input asp-for="WorkedYears" class="form-control" value="@Model.OwnerId" required />
+                <input asp-for="WorkedYears" class="form-control" value="@Model.WorkedYears" required/>
                 <span asp-validation-for="WorkedYears" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" value="@Model.Role" required />
+                <input asp-for="Role" class="form-control" value="@Model.Role" required/>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-outline-primary" />
+                <input type="submit" value="Update" class="btn btn-outline-primary" />
             </div>
         </form>
     </div>
@@ -49,7 +50,5 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
