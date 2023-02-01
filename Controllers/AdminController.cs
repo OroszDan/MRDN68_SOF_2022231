@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using MRDN68_SOF_2022231.Data;
@@ -87,7 +88,15 @@ namespace MRDN68_SOF_2022231.Controllers
 
         public IActionResult Delete(string id)
         {
-            ResumeRepo.Delete(id, this.User);
+            var item = ResumeRepo.ReadOneById(id);
+            if (item != null)
+            {
+                ResumeRepo.Delete(item);
+            }
+            else
+            {
+                throw new ArgumentException("Something went wrong!");
+            }
 
             return RedirectToAction(nameof(List));
         }

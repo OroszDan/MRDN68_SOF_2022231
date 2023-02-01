@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MRDN68_SOF_2022231.Data;
 using MRDN68_SOF_2022231.Models;
 using NuGet.Packaging;
@@ -51,9 +52,9 @@ namespace MRDN68_SOF_2022231.Controllers
         }
 
         [Authorize]
-        public IActionResult AddWorkplace(string ownerId)
+        public IActionResult AddWorkplace(string id)
         {
-            Workplace newWorkplace = new Workplace { OwnerId = ownerId };
+            Workplace newWorkplace = new Workplace { OwnerId = id };
             return View(newWorkplace);
         }
 
@@ -105,8 +106,16 @@ namespace MRDN68_SOF_2022231.Controllers
 
         [Authorize]
         public IActionResult Delete(string id)
-        {          
-            ResumeRepo.Delete(id, this.User); 
+        {
+            var item = ResumeRepo.ReadOneById(id);
+            if (item != null && item.OwnerId == _userManager.GetUserId(this.User))
+            {
+                ResumeRepo.Delete(item);
+            }
+            else
+            {
+                throw new ArgumentException("Something went wrong!");
+            }
             
             return RedirectToAction(nameof(List));
         }

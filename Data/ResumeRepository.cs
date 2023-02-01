@@ -58,22 +58,10 @@ namespace MRDN68_SOF_2022231.Data
             return _context.Resumes.First(x => x.Id == id);
         }
 
-        public void Delete(string id, ClaimsPrincipal principal)
+        public void Delete(Resume resume)
         {
-            var item = _context.Resumes.FirstOrDefault(t => t.Id == id);
-            if (item != null && item.OwnerId == _userManager.GetUserId(principal))
-            {
-                _context.Resumes.Remove(item);
-                _context.SaveChanges();
-            }
-            else
-            {
-                throw new ArgumentException("Something went wrong!");
-            }
-
-            //var hero = Read(name);
-            //_context.Heroes.Remove(hero);
-            //_context.SaveChanges();
+            _context.Resumes.Remove(resume);
+            _context.SaveChanges();
         }
 
         public void Update(Resume resume)

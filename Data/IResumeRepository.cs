@@ -6,7 +6,7 @@ namespace MRDN68_SOF_2022231.Data
     public interface IResumeRepository
     {
         void Create(Resume resume);
-        void Delete(string id, ClaimsPrincipal principal);
+        void Delete(Resume resume);
         IEnumerable<Resume> Read();
         IEnumerable<Resume> ReadFromOwnerId(ClaimsPrincipal principal);
         Resume ReadOneById(string id);
