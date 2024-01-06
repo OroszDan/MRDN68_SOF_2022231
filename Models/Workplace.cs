@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MRDN68_SOF_2022231.Models
 {
@@ -28,6 +29,7 @@ namespace MRDN68_SOF_2022231.Models
         public string? OwnerId { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual Resume? Owner { get; set; }
 
         public Workplace()

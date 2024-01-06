@@ -27,19 +27,19 @@ namespace MRDN68_SOF_2022231.Models
         [Required]
         public string Description { get; set; }
 
-        public string? ContentType { get; set; }
+        //public string? ContentType { get; set; }
 
-        public byte[]? Data { get; set; }
+        //public byte[]? Data { get; set; }
 
         public string? OwnerId { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual IdentityUser? Owner { get; set; }
 
         [NotMapped]
         [JsonIgnore]
         public virtual ICollection<Workplace> Workplaces { get; set; }
-
 
         public Resume()
         {

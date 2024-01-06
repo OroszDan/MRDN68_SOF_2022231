@@ -64,6 +64,12 @@ namespace MRDN68_SOF_2022231.Data
             _context.SaveChanges();
         }
 
+        public void DeleteById(string id)
+        {
+            _context.Resumes.Remove(ReadOneById(id));
+            _context.SaveChanges();
+        }
+
         public void Update(Resume resume)
         {
             var old = ReadOneById(resume.Id);
@@ -73,6 +79,5 @@ namespace MRDN68_SOF_2022231.Data
             old.Description = resume.Description;
             _context.SaveChanges();
         }
-
     }
 }
