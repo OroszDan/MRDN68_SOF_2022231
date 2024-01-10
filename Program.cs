@@ -82,6 +82,12 @@ var app = builder.Build();
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 //app.MapRazorPages();
 
+app.UseCors(x => x
+           .AllowCredentials()
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .WithOrigins("http://localhost:4200"));
+
 app.MapControllers();
 
 app.UseAuthentication();
