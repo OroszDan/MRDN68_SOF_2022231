@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MRDN68_SOF_2022231.Data;
 using MRDN68_SOF_2022231.Models;
 
@@ -8,7 +9,7 @@ namespace MRDN68_SOF_2022231.Controllers
     [Route("[controller]")]
     public class WorkplaceController : ControllerBase
     {
-        IWorkplaceRepository workplaceRepo;
+        readonly IWorkplaceRepository workplaceRepo;
 
         public WorkplaceController(IWorkplaceRepository workplaceRepo)
         {
@@ -22,24 +23,28 @@ namespace MRDN68_SOF_2022231.Controllers
         }
 
         [HttpGet("{id}")]
-        public Workplace? GetOneById(string id)
+        public Workplace? ReadOneById(string id)
         {
             return workplaceRepo.ReadOneById(id);
         }
 
         [HttpPost]
+        [Authorize]
         public void Create([FromBody] Workplace newWorkplace)
         {
+            newWorkplace.Id = Guid.NewGuid().ToString();
             workplaceRepo.Create(newWorkplace);
         }
 
         [HttpPut]
+        [Authorize]
         public void Update([FromBody] Workplace workplace)
         {
             workplaceRepo.Update(workplace);
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public void Delete(string id)
         {
             workplaceRepo.Delete(id);

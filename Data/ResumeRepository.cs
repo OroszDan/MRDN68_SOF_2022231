@@ -53,9 +53,9 @@ namespace MRDN68_SOF_2022231.Data
 
         }
 
-        public Resume ReadOneById(string id)
+        public Resume? ReadOneById(string id)
         {
-            return _context.Resumes.First(x => x.Id == id);
+            return _context.Resumes.FirstOrDefault(x => x.Id == id);
         }
 
         public void Delete(Resume resume)

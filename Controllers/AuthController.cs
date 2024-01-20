@@ -13,9 +13,9 @@ namespace MRDN68_SOF_2022231.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
-        public AuthController(UserManager<AppUser> userManager, IConfiguration configuration)
+        public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -50,18 +50,19 @@ namespace MRDN68_SOF_2022231.Controllers
         [HttpPut]
         public async Task<IActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
-            var user = new AppUser
+            var user = new IdentityUser
             {
                 Email = model.Email,
                 UserName = model.UserName,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                //FirstName = model.FirstName,
+                //LastName = model.LastName,
                 //PhotoContentType = model.PhotoContentType,
                 //PhotoData = model.PhotoData
             };
-            await _userManager.CreateAsync(user, model.Password);
-            await _userManager.AddToRoleAsync(user, "Customer");
+            var result = await _userManager.CreateAsync(user, model.Password);
+            var res = await _userManager.AddToRoleAsync(user, "Admin");
+            ;
             return Ok();
         }
 
@@ -73,8 +74,8 @@ namespace MRDN68_SOF_2022231.Controllers
             return Ok(new
             {
                 UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                //FirstName = user.FirstName,
+                //LastName = user.LastName,
                 Email = user.Email,
                 //PhotoData = user.PhotoData,
                 //PhotoContentType = user.PhotoContentType,

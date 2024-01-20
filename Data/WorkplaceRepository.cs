@@ -25,9 +25,9 @@ namespace MRDN68_SOF_2022231.Data
             return _context.Workplaces;
         }
 
-        public IEnumerable<Workplace> ReadFromUid(string uid)
+        public IEnumerable<Workplace> ReadFromResumeId(string resumeId)
         {
-            return _context.Workplaces.Where(t => t.OwnerId == uid);
+            return _context.Workplaces.Where(t => t.OwnerId == resumeId);
         }
 
         public Workplace? ReadOneById(string id)
@@ -51,7 +51,7 @@ namespace MRDN68_SOF_2022231.Data
         }
 
         public void Delete(string id)
-        {
+        { 
             var item = _context.Workplaces.FirstOrDefault(t => t.Id == id);
             if (item != null)
             {
@@ -62,7 +62,6 @@ namespace MRDN68_SOF_2022231.Data
             {
                 throw new ArgumentException("Something went wrong!");
             }
-
         }
 
     }

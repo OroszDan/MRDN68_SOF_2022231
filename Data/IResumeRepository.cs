@@ -10,7 +10,7 @@ namespace MRDN68_SOF_2022231.Data
         void DeleteById(string id);
         IEnumerable<Resume> Read();
         IEnumerable<Resume> ReadFromOwnerId(ClaimsPrincipal principal);
-        Resume ReadOneById(string id);
+        Resume? ReadOneById(string id);
         void Update(Resume resume);
         Resume? YoungestPerson();
     }

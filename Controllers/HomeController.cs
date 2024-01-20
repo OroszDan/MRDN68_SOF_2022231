@@ -81,7 +81,7 @@ namespace MRDN68_SOF_2022231.Controllers
         [Authorize]
         public IActionResult ListWorkplaces(string resumeId) 
         {
-            IEnumerable<Workplace> workplaces = WorkplaceRepo.ReadFromUid(resumeId);
+            IEnumerable<Workplace> workplaces = WorkplaceRepo.ReadFromResumeId(resumeId);
             return View(workplaces);
         }
 

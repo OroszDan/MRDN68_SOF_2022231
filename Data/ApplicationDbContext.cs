@@ -22,7 +22,8 @@ namespace MRDN68_SOF_2022231.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData(
-            new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" }
+            new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+            new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER" }
             );
 
             PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
